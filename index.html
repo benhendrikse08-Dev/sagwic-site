@@ -1,126 +1,499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sagwic</title>
-<meta name="description" content="Sagwic is Tambora's research lab: building Tambora's own AI and researching the next upgrades for everything Tambora flies. Opening end of January 2027.">
-<meta property="og:title" content="Sagwic"><meta property="og:description" content="Tambora's research lab. Opening end of January 2027.">
+<meta name="description" content="Sagwic (Scouting And Gathering World-class Innovative Creators) is how Tambora finds its people: engineers, builders and curious minds who want to work on autonomous drones that help people.">
 <meta name="theme-color" content="#121216">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%237C5CFF'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='4.5'%3E%3Ccircle cx='20' cy='33' r='9'/%3E%3Ccircle cx='44' cy='33' r='9'/%3E%3Cpath d='M29 31q3-4 6 0'/%3E%3C/g%3E%3Ccircle cx='22' cy='30' r='3' fill='%23121216'/%3E%3Ccircle cx='46' cy='30' r='3' fill='%23121216'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one screen — the lab's graph-paper bench, the violet character on it, a short note and a date. Single dark world on purpose. */
+/* Sagwic one-pager. Brand: Lab Violet #7C5CFF (on white #5B3FE0), Graphite #121216, Bench #2A2A33, Scope Amber #FFB547 (measured things only), Paper #F5F5F7. Inter + JetBrains Mono. */
 :root{
-  --bench:#121216; --grid:#211D33; --violet:#7C5CFF; --amber:#FFB547;
-  --chalk:#F2F0FA; --dim:#9A97AE; --line:#34304A;
+  --graphite:#121216; --grid:#1D1D25; --bench:#2A2A33; --line:#2E2C3A;
+  --violet:#7C5CFF; --violet-hi:#B3A4FF; --violet-ink:#5B3FE0; --amber:#FFB547;
+  --chalk:#F2F0FA; --soft:#C9C6D6; --dim:#8C8CA3; --paper:#F5F5F7; --ink:#121216; --body:#4A4A58; --mute:#6A6A7C;
   --sans:Inter,"Helvetica Neue",Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  color-scheme:dark;
+  --pad:max(20px,env(safe-area-inset-left,0px));
+  --padr:max(20px,env(safe-area-inset-right,0px));
 }
-html,body{height:100%;margin:0}
-body{background:var(--bench);color:var(--chalk);font-family:var(--sans);font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
-.page{min-height:100%;display:flex;flex-direction:column;padding-block:28px 24px;
-  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));max-width:1160px;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:var(--mono);font-size:12px;color:var(--dim)}
-.top a{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
-.top a:hover,.top a:focus-visible{color:var(--chalk);border-color:var(--chalk);outline:none}
-main{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:40px}
-main>*{min-width:0}
-.note{font-family:var(--mono);font-size:13px;color:var(--dim);margin-bottom:22px}
-h1{font-size:clamp(40px,5.6vw,68px);font-weight:300;line-height:1.02;letter-spacing:-.035em;text-wrap:balance;margin:0}
-h1 b{font-weight:500}
-p.lede{margin:22px 0 0;font-size:17px;line-height:1.65;color:#C9C6D6;max-width:30em}
-.soon{display:inline-flex;align-items:center;gap:12px;margin-top:30px;border:1px solid var(--line);border-radius:6px;padding:13px 18px;font-size:15px}
-.soon b{font-weight:600}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;animation:blink 1.6s steps(2,end) infinite}
-@keyframes blink{50%{opacity:.25}}
-.bench{margin-top:28px;font-family:var(--mono);font-size:12.5px;color:var(--dim);line-height:1.9}
-.bench span{color:var(--amber)}
-.cursor{display:inline-block;width:7px;height:14px;background:var(--chalk);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(2,end) infinite}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+body{background:var(--graphite);color:var(--chalk);font-family:var(--sans);font-optical-sizing:auto;-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit}
+img,svg{display:block}
+.w{max-width:1160px;margin:0 auto;padding-left:var(--pad);padding-right:var(--padr)}
+.mono{font-family:var(--mono)}
+.grid-bg{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+:focus-visible{outline:2px solid var(--violet-hi);outline-offset:3px;border-radius:4px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(18,18,22,.82);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s;padding-top:env(safe-area-inset-top,0px)}
+.nav.scrolled{border-color:var(--line)}
+.nav .w{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:46px;height:auto;overflow:visible}
+.logo span{font-weight:700;font-size:22px;letter-spacing:-.04em;line-height:1}
+.links{display:flex;align-items:center;gap:28px;font-size:14px;color:var(--soft)}
+.links a{text-decoration:none;transition:color .2s}
+.links a:hover{color:#fff}
+.links .tam{font-family:var(--mono);font-size:12px;color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:2px}
+.links .tam:hover{color:#fff;border-color:#fff}
+
+/* hero */
+.hero{padding:56px 0 88px;border-bottom:1px solid var(--line)}
+.hero .w{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero .w>*{min-width:0}
+.eyebrow{font-family:var(--mono);font-size:13px;color:var(--dim);margin-bottom:24px}
+.eyebrow b{color:var(--violet-hi);font-weight:500}
+h1{font-size:clamp(44px,6.4vw,84px);font-weight:300;line-height:.98;letter-spacing:-.04em;text-wrap:balance}
+h1 b,h2 b{font-weight:500}
+.lede{margin-top:26px;font-size:clamp(17px,1.5vw,19px);line-height:1.6;color:var(--soft);max-width:31em}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;transition:transform .2s,background .2s,border-color .2s}
+.btn.pri{background:var(--violet);color:#fff}
+.btn.pri:hover{background:#8D71FF;transform:translateY(-1px)}
+.btn.sec{border:1px solid var(--line);color:var(--chalk)}
+.btn.sec:hover{border-color:var(--dim)}
 .char{display:flex;justify-content:center}
-.circle{width:min(440px,100%);aspect-ratio:1;max-width:100%;border-radius:50%;background:var(--violet);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.circle{position:relative;width:min(460px,100%);aspect-ratio:1;border-radius:50%;background:var(--violet);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer;transition:transform .5s cubic-bezier(.2,.7,.2,1);-webkit-tap-highlight-color:transparent;border:0;color:#fff;font:inherit}
 .circle:hover{transform:rotate(-4deg) scale(1.02)}
+.circle svg{width:56%;height:auto;overflow:visible}
+.word{font-weight:700;font-size:clamp(46px,7vw,88px);letter-spacing:-.045em;line-height:1}
+.tagline{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:12px;color:var(--dim)}
 .pupil{will-change:transform}
-.circle svg{width:54%;height:auto;overflow:visible}
-.word{font-weight:700;font-size:clamp(44px,7vw,84px);letter-spacing:-.045em;line-height:1}
-footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+
+/* sections */
+section{padding:104px 0}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:52px;flex-wrap:wrap}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim);margin-bottom:16px}
+h2{font-size:clamp(34px,4.4vw,56px);font-weight:300;line-height:1.02;letter-spacing:-.035em;text-wrap:balance}
+.sh p{max-width:28em;color:var(--soft);font-size:16px;line-height:1.6}
+
+.proof{display:flex;align-items:flex-start;gap:10px;margin-top:26px;font-size:14.5px;line-height:1.5;color:var(--dim)}
+.proof i{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;margin-top:6px;animation:blink 1.6s steps(2,end) infinite}
+/* the name */
+.name{padding:56px 0 60px;border-bottom:1px solid var(--line)}
+.name .k{margin-bottom:18px}
+.acro{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:clamp(26px,3.6vw,46px);font-weight:300;letter-spacing:-.03em;line-height:1.15;color:var(--soft)}
+.acro b{font-weight:700;color:var(--violet-hi)}
+/* what we build (light) */
+.light{background:#fff;color:var(--ink)}
+.light .k{color:var(--mute)}
+.light .sh p{color:var(--body)}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:var(--paper);border-radius:16px;padding:26px 24px 24px;display:flex;flex-direction:column;gap:12px;min-height:300px;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(18,18,22,.08)}
+.card .bar{height:3px;width:40px;background:var(--violet);border-radius:2px}
+.card.data .bar{background:var(--amber)}
+.card .ic{width:44px;height:44px;margin-top:6px}
+.card h3{font-size:22px;font-weight:500;letter-spacing:-.02em;margin-top:6px}
+.card p{font-size:15px;line-height:1.55;color:var(--body)}
+.card code{margin-top:auto;padding-top:14px;border-top:1px solid #E4E4EA;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.card code i{font-style:normal;color:var(--violet-ink)}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(18,18,22,.6)}
+.step{padding:30px 26px 32px;border-right:1px solid var(--line);position:relative}
+.step:last-child{border-right:0}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--amber)}
+.step h3{font-size:30px;font-weight:300;letter-spacing:-.03em;margin:22px 0 10px}
+.step p{font-size:15px;color:var(--soft);line-height:1.55}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-11px;top:28px;width:22px;height:22px;border-radius:50%;background:var(--graphite);border:1px solid var(--line);color:var(--dim);font-size:12px;display:flex;align-items:center;justify-content:center;z-index:1}
+.again{margin-top:18px;font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+.again span{color:var(--violet-hi)}
+
+/* bench console */
+.console{margin-top:56px;border-radius:16px;background:var(--bench);padding:22px 24px;font-family:var(--mono);font-size:13px;line-height:2;color:var(--soft);box-shadow:inset 0 0 0 1px #3A3A46}
+.console .hd{display:flex;justify-content:space-between;color:var(--dim);font-size:12px;margin-bottom:8px}
+.console .hd b{font-weight:400;color:var(--violet-hi)}
+.console .row{display:flex;justify-content:space-between;gap:16px;border-top:1px dashed #3A3A46}
+.console .row span:first-child::before{content:"→ ";color:var(--amber)}
+.console .st{color:var(--dim)}
+.console .st.on{color:var(--violet-hi)}
+.cursor{display:inline-block;width:7px;height:14px;background:var(--chalk);vertical-align:-2px;margin-left:4px;animation:blink 1s steps(2,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* family */
+.paper{background:var(--paper);color:var(--ink)}
+.paper .k{color:var(--mute)}
+.paper .sh p{color:var(--body)}
+.fam{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mem{background:#fff;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;box-shadow:0 0 0 1px #E4E4EA}
+.mem .sw{height:4px;border-radius:2px}
+.mem small{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mute);margin-top:8px}
+.mem h3{font-size:20px;font-weight:500;letter-spacing:-.02em}
+.mem p{font-size:14.5px;color:var(--body);line-height:1.55}
+.mem.us{background:var(--graphite);color:#fff;box-shadow:none}
+.mem.us small{color:var(--violet-hi)}
+.mem.us p{color:var(--soft)}
+.fam-foot{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;font-size:15px;color:var(--body)}
+.fam-foot a{color:var(--violet-ink);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(91,63,224,.3)}
+.fam-foot a:hover{border-color:var(--violet-ink)}
+
+/* form */
+.side-note{margin-top:16px!important;font-size:15px!important;color:var(--dim)!important}
+.side-note a{color:var(--violet-hi);text-decoration:none}
+.side-note a:hover{color:#fff}
+.sform{background:var(--bench);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:16px;box-shadow:inset 0 0 0 1px #3A3A46}
+.sform .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:7px;min-width:0}
+.f span{font-size:13.5px;font-weight:500;color:var(--soft)}
+.f input,.f textarea{width:100%;font:inherit;font-size:16px;color:#fff;background:var(--graphite);border:1px solid #3A3A46;border-radius:10px;padding:12px 14px;resize:vertical;transition:border-color .2s}
+.f input::placeholder,.f textarea::placeholder{color:#6A6A7C}
+.f input:focus,.f textarea:focus{outline:none;border-color:var(--violet)}
+.f .bad,.f input.bad,.f textarea.bad{border-color:#FF6B6B}
+.sform .btn{align-self:flex-start;border:0;cursor:pointer;font-family:inherit}
+.sform .btn:disabled{opacity:.6;cursor:default}
+.fmsg{font-size:14px;color:var(--violet-hi);min-height:0}
+.fmsg:empty{display:none}
+.fmsg.err{color:#FF8A8A}
+.contact .sform .fnote{margin:0;font-size:12.5px;color:var(--dim);line-height:1.5;max-width:none}
+.contact .sform .fmsg{margin:0;font-size:14px;line-height:1.5}
+.sform.done .two,.sform.done .f,.sform.done .btn{display:none}
+.contact .sform.done .fmsg{font-size:20px;font-weight:500;color:#fff;line-height:1.4}
+/* contact */
+.contact{border-top:1px solid var(--line)}
+.contact .w{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:start}
+.contact .w>*{min-width:0}
+.contact p{margin-top:22px;color:var(--soft);font-size:17px;line-height:1.6;max-width:30em}
+.mail{display:inline-flex;align-items:center;gap:12px;margin-top:30px;font-size:clamp(20px,2.4vw,28px);font-weight:500;letter-spacing:-.02em;text-decoration:none;border-bottom:2px solid var(--violet);padding-bottom:4px;overflow-wrap:anywhere}
+.mail:hover{color:var(--violet-hi)}
+.demo{border:1px solid var(--line);border-radius:16px;padding:26px 26px 24px;background:rgba(124,92,255,.06)}
+.demo .k{color:var(--amber);margin-bottom:12px}
+.demo h3{font-size:24px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.demo p{font-size:15px;margin-top:10px}
+.demo a{display:inline-flex;margin-top:18px;font-size:15px;font-weight:500;color:var(--violet-hi);text-decoration:none}
+.demo a:hover{color:#fff}
+
+footer{border-top:1px solid var(--line);padding:24px 0 calc(28px + env(safe-area-inset-bottom,0px));font-size:12.5px;color:var(--dim)}
+footer .w{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .stripe{display:flex;gap:2px;width:72px;height:3px}
 .stripe i{flex:1}
-.stripe i:nth-child(1){background:#2457A6}.stripe i:nth-child(2){background:#1E9461}.stripe i:nth-child(3){background:#F2B705}.stripe i:nth-child(4){background:var(--violet)}
-@media (max-width:820px){
-  main{grid-template-columns:1fr;gap:36px;padding-block:24px}
-  .char{order:-1}
-  .circle{width:min(300px,100%)}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
+.s1{background:#2457A6}.s2{background:#1E9461}.s3{background:#F2B705}.s4{background:var(--violet)}
 
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .cards,.fam{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .loop{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step:nth-child(2){border-right:0}
+  .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .step:nth-child(2)::after{display:none}
+}
+@media (max-width:820px){
+  .links a:not(.tam){display:none}
+  .hero{padding:28px 0 80px}
+  .hero .w,.contact .w{grid-template-columns:1fr;gap:44px}
+  .char{order:-1;margin-bottom:24px}
+  .circle{width:min(300px,82vw)}
+  section{padding:80px 0}
+  .card{min-height:0}
+}
+@media (max-width:540px){
+  .sform .two{grid-template-columns:1fr}
+  .sform{padding:20px}
+  .cards,.fam,.loop{grid-template-columns:1fr}
+  .step{border-right:0!important;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0}
+  .step:not(:last-child)::after{display:none}
+  .console{padding:18px 18px}
+  .console .hd{flex-direction:column;gap:2px}
+  .console .row{flex-direction:column;gap:0}
+  .console .row .st{padding-left:20px;line-height:1.4;padding-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
 </head>
 <body>
-<div class="page">
-  <div class="top">
-    <span>// sagwic.com</span>
-    <a href="https://flytambora.com">part of Tambora ↗</a>
+
+<header class="nav" id="nav">
+  <div class="w">
+    <a class="logo" href="#top" aria-label="Sagwic, back to the top">
+      <svg class="eyes" viewBox="0 0 120 50" aria-hidden="true">
+        <circle cx="28" cy="25" r="20" fill="none" stroke="#7C5CFF" stroke-width="7"/>
+        <circle cx="92" cy="25" r="20" fill="none" stroke="#7C5CFF" stroke-width="7"/>
+        <path d="M48 22 Q60 12 72 22" fill="none" stroke="#7C5CFF" stroke-width="7"/>
+        <circle class="pupil" cx="28" cy="25" r="6" fill="#fff"/>
+        <circle class="pupil" cx="92" cy="25" r="6" fill="#fff"/>
+      </svg>
+      <span>sagwic</span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#who">Who we're looking for</a>
+      <a href="#how">How it works</a>
+      <a href="#work">The work</a>
+      <a href="#apply">Sign up</a>
+      <a class="tam" href="https://flytambora.com" target="_blank" rel="noopener">part of Tambora ↗</a>
+    </nav>
   </div>
+</header>
 
-  <main>
-    <section>
-      <div class="note">// the research lab is still on the bench</div>
-      <h1>Something's being built <b>in here.</b></h1>
-      <p class="lede">Sagwic is Tambora's research lab. We build Tambora's own AI in-house and research the next upgrades for everything Tambora flies.</p>
-      <div class="soon"><i class="dot" aria-hidden="true"></i><span><b>sagwic.com</b> opens at the end of January 2027.</span></div>
-      <div class="bench" aria-label="What the lab is working on">
-        <div><span>→</span> ai.build(in_house=True) &nbsp;in progress</div>
-        <div><span>→</span> research.next_upgrade() &nbsp;ongoing</div>
-        <div><span>→</span> pure_research() &nbsp;always<i class="cursor" aria-hidden="true"></i></div>
+<main id="top">
+
+<!-- HERO -->
+<div class="hero grid-bg">
+  <div class="w">
+    <div>
+      <div class="eyebrow rv">// <b>sagwic</b> · Tambora's talent scout</div>
+      <h1 class="rv">We're looking <b>for you.</b></h1>
+      <p class="lede rv">Sagwic is how Tambora finds its people: engineers, builders and curious minds who want to work on autonomous drones that help people. We don't care much about your CV. Show us what you've built.</p>
+      <div class="ctas rv">
+        <a class="btn pri" href="#apply">Sign up <span aria-hidden="true">→</span></a>
+        <a class="btn sec" href="#who">Who we're looking for</a>
       </div>
-    </section>
-
-    <div class="char">
-      <div class="circle" role="img" aria-label="Sagwic logo: a violet circle with glasses">
-        <svg viewBox="0 0 120 50" aria-hidden="true">
+      <p class="proof rv"><i aria-hidden="true"></i>Our first drones are built and the team is already growing. The next seat could be yours.</p>
+    </div>
+    <div class="char rv">
+      <button class="circle" id="mascot" type="button" aria-label="Sagwic logo: a violet circle with round glasses. Tap to make it look around for talent.">
+        <svg class="eyes big" viewBox="0 0 120 50" aria-hidden="true">
           <circle cx="28" cy="25" r="20" fill="none" stroke="#fff" stroke-width="6"/>
           <circle cx="92" cy="25" r="20" fill="none" stroke="#fff" stroke-width="6"/>
           <path d="M48 22 Q60 12 72 22" fill="none" stroke="#fff" stroke-width="6"/>
-          <circle class="pupil" cx="28" cy="25" r="5.5" fill="#121216" transform="translate(-3 -7)"/>
-          <circle class="pupil" cx="92" cy="25" r="5.5" fill="#121216" transform="translate(-3 -7)"/>
+          <circle class="pupil" cx="28" cy="25" r="5.5" fill="#121216"/>
+          <circle class="pupil" cx="92" cy="25" r="5.5" fill="#121216"/>
         </svg>
         <span class="word">sagwic</span>
-      </div>
+        <span class="tagline">always on the lookout</span>
+      </button>
     </div>
-  </main>
-
-  <footer>
-    <span>Sagwic · a Tambora company · Stellenbosch, South Africa</span>
-    <span class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-  </footer>
+  </div>
 </div>
+
+<!-- THE NAME -->
+<div class="name" aria-label="Sagwic stands for Scouting And Gathering World-class Innovative Creators">
+  <div class="w">
+    <div class="k rv">// WHAT SAGWIC STANDS FOR</div>
+    <p class="acro rv" aria-hidden="true"><span><b>S</b>couting</span> <span><b>A</b>nd</span> <span><b>G</b>athering</span> <span><b>W</b>orld-class</span> <span><b>I</b>nnovative</span> <span><b>C</b>reators</span></p>
+  </div>
+</div>
+
+<!-- WHO WE'RE LOOKING FOR -->
+<section class="light" id="who">
+  <div class="w">
+    <div class="sh">
+      <div>
+        <div class="k rv">// 01 · WHO WE'RE LOOKING FOR</div>
+        <h2 class="rv">People who build things <b>to see if they work.</b></h2>
+      </div>
+      <p class="rv">Students, graduates and experienced engineers are all welcome. What matters is that you've made something, broken it and made it better.</p>
+    </div>
+    <div class="cards">
+      <article class="card rv">
+        <span class="bar"></span>
+        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="#5B3FE0" stroke-width="2" aria-hidden="true"><circle cx="22" cy="22" r="17"/><circle cx="22" cy="22" r="7"/><path d="M22 5v6M22 33v6M5 22h6M33 22h6"/><circle cx="22" cy="22" r="2" fill="#FFB547" stroke="none"/></svg>
+        <h3>AI and machine learning</h3>
+        <p>Teach a drone to fly itself, recognise what's on the ground below it and turn live footage into a clear account of what happened.</p>
+        <code><i>looking_for</i>(["autonomy", "vision", "ML"])</code>
+      </article>
+      <article class="card rv">
+        <span class="bar"></span>
+        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="#5B3FE0" stroke-width="2" aria-hidden="true"><rect x="11" y="11" width="22" height="22" rx="3"/><rect x="17" y="17" width="10" height="10" rx="1" stroke="#FFB547"/><path d="M16 5v6M22 5v6M28 5v6M16 33v6M22 33v6M28 33v6M5 16h6M5 22h6M5 28h6M33 16h6M33 22h6M33 28h6"/></svg>
+        <h3>Electronics and embedded</h3>
+        <p>Flight controllers, firmware, power systems and radio links.</p>
+        <code><i>looking_for</i>(["firmware", "PCB", "RF"])</code>
+      </article>
+      <article class="card rv">
+        <span class="bar"></span>
+        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="#5B3FE0" stroke-width="2" aria-hidden="true"><path d="M22 14 L40 23 L22 32 L4 23 Z"/><path d="M4 23v7l18 9 18-9v-7"/><path d="M22 4v6" stroke="#FFB547" stroke-dasharray="2 3"/></svg>
+        <h3>Mechanical and robotics</h3>
+        <p>Airframes, docks and the mechanisms that land, swap and relaunch a drone with no one on site.</p>
+        <code><i>looking_for</i>(["CAD", "mechatronics"])</code>
+      </article>
+      <article class="card data rv">
+        <span class="bar"></span>
+        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke-width="2" aria-hidden="true"><g stroke="#5B3FE0"><ellipse cx="11" cy="11" rx="7" ry="3"/><ellipse cx="33" cy="11" rx="7" ry="3"/><ellipse cx="11" cy="33" rx="7" ry="3"/><ellipse cx="33" cy="33" rx="7" ry="3"/><path d="M11 11 L33 33 M33 11 L11 33"/></g><rect x="17" y="18" width="10" height="8" rx="2" stroke="#FFB547"/></svg>
+        <h3>Flight and field</h3>
+        <p>Drone technicians and pilots who test, install and keep the fleet flying.</p>
+        <code><i>looking_for</i>(["testing", "maintenance"])</code>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="grid-bg" id="how">
+  <div class="w">
+    <div class="sh">
+      <div>
+        <div class="k rv">// 02 · HOW IT WORKS</div>
+        <h2 class="rv">No tricky interviews. <b>Just the work.</b></h2>
+      </div>
+      <p class="rv">We'd rather see what you can do than read about it. Four simple steps, and we'll keep you posted at each one.</p>
+    </div>
+    <div class="loop rv">
+      <div class="step"><span class="n">01</span><h3>Show us</h3><p>Send a project, a repo, a video or photos of something you've built.</p></div>
+      <div class="step"><span class="n">02</span><h3>Chat</h3><p>A relaxed conversation about what you made and how you think.</p></div>
+      <div class="step"><span class="n">03</span><h3>Bench day</h3><p>Spend a day building something with the team.</p></div>
+      <div class="step"><span class="n">04</span><h3>Join</h3><p>Come and help build Tambora.</p></div>
+    </div>
+    <div class="again rv"><span>↺</span> not the right fit yet? We'll keep looking out for you</div>
+
+    <div class="console rv" aria-label="Sagwic's search status">
+      <div class="hd"><span>sagwic@tambora:~$ search --talent</span><b>● scanning</b></div>
+      <div class="row"><span>engineers.find(curious=True)</span><span class="st on">searching</span></div>
+      <div class="row"><span>graduates.find(built_something=True)</span><span class="st on">searching</span></div>
+      <div class="row"><span>technicians.find(hands_on=True)</span><span class="st on">searching</span></div>
+      <div class="row"><span>you</span><span class="st">not found yet<i class="cursor" aria-hidden="true"></i></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE WORK -->
+<section class="paper" id="work">
+  <div class="w">
+    <div class="sh">
+      <div>
+        <div class="k rv">// 03 · THE WORK</div>
+        <h2 class="rv">Build drones that <b>help people.</b></h2>
+      </div>
+      <p class="rv">Tambora builds autonomous drones for essential services, in Cape Town. Join early and you'll help shape every mission that follows.</p>
+    </div>
+    <div class="fam">
+      <div class="mem rv"><span class="sw s1"></span><small>NOW</small><h3>Security</h3><p>Flying today with SafeGuard, our security partner.</p></div>
+      <div class="mem rv"><span class="sw s2"></span><small>2029</small><h3>Medical</h3><p>Heavy-load drones carrying medical supplies.</p></div>
+      <div class="mem rv"><span class="sw s3"></span><small>2031</small><h3>Fire</h3><p>Getting eyes on a fire before anyone else can.</p></div>
+      <div class="mem us rv"><span class="sw s4"></span><small>ALWAYS · SAGWIC</small><h3>The people</h3><p>Finding the builders behind every one of them.</p></div>
+    </div>
+    <div class="fam-foot rv">
+      <span>Sagwic is part of Tambora.</span>
+      <a href="https://flytambora.com" target="_blank" rel="noopener">Visit flytambora.com ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- SIGN UP -->
+<section class="contact grid-bg" id="apply">
+  <div class="w">
+    <div>
+      <div class="k rv">// 04 · SIGN UP</div>
+      <h2 class="rv">Show us what <b>you've built.</b></h2>
+      <p class="rv">Tell us a bit about yourself and what you've made. If it looks like a fit, we'll WhatsApp you to set up a chat.</p>
+      <p class="side-note rv">We'll reply on WhatsApp within 2 days. Not heard from us? Email our CEO, Ben, at <a href="mailto:ben@flytambora.com">ben@flytambora.com</a></p>
+      <p class="side-note rv">Meet the team at Tambora's demo day, 22 April 2027 in Cape Town. <a href="https://flytambora.com" target="_blank" rel="noopener">flytambora.com ↗</a></p>
+    </div>
+    <form class="sform rv" id="sform" novalidate>
+      <div class="two">
+        <label class="f"><span>Full name</span><input id="f-name" autocomplete="name" placeholder="e.g. Thandi Nkosi" required maxlength="80"></label>
+        <label class="f"><span>Phone number</span><input id="f-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="082 123 4567" required maxlength="20"></label>
+      </div>
+      <label class="f"><span>What are you studying, or what are you good at?</span><textarea id="f-skill" rows="2" placeholder="e.g. 4th-year mechatronics student, or taught myself machine learning" required maxlength="200"></textarea></label>
+      <label class="f"><span>What have you built?</span><textarea id="f-built" rows="3" placeholder="Tell us about a project, and add a link (GitHub, YouTube, Drive) if you have one" required maxlength="1500"></textarea></label>
+      <label class="f"><span>Why do you want to join?</span><textarea id="f-why" rows="3" placeholder="What made you sign up?" required maxlength="1000"></textarea></label>
+      <p class="fmsg" id="f-msg" role="status" aria-live="polite"></p>
+      <button class="btn pri" type="submit">Put me on the radar <span aria-hidden="true">→</span></button>
+      <p class="fnote">We only use your details to get in touch about working with Tambora. Email ben@flytambora.com any time to have them removed.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="w">
+    <span>© 2026 Sagwic · part of Tambora · Cape Town, South Africa</span>
+    <span class="stripe" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i></span>
+  </div>
+</footer>
 
 <script>
 (function(){
-  var ps=[].slice.call(document.querySelectorAll('.pupil'));
-  if(!ps.length)return;
-  ps.forEach(function(p){p.removeAttribute('transform');p.style.transformBox='fill-box';p.style.transformOrigin='center';p.style.transition='transform .35s cubic-bezier(.3,.7,.2,1)'});
-  function set(a,b,sy){ps[0].style.transform='translate('+a[0]+'px,'+a[1]+'px) scaleY('+(sy||1)+')';ps[1].style.transform='translate('+b[0]+'px,'+b[1]+'px) scaleY('+(sy||1)+')'}
-  var UP=[-3,-7];set(UP,UP);
+  /* nav border on scroll */
+  var nav=document.getElementById('nav');
+  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>8)}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* reveal on scroll */
+  var rv=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    rv.forEach(function(el){io.observe(el)});
+  }else rv.forEach(function(el){el.classList.add('in')});
+
+  /* sign-up form -> Google Form (same approach as flytambora.com) */
+  var FORM_URL='https://docs.google.com/forms/d/e/1FAIpQLSePgDWfEhTuUtwvRVQuWImgokWRRubiYVnaCxGCNTt8_e7c4Q/formResponse';
+  var E={name:'entry.1320042680',phone:'entry.807862645',skill:'entry.1115687054',built:'entry.816736357',why:'entry.1241517756'};
+  var f=document.getElementById('sform');
+  if(f){
+    var $=function(id){return document.getElementById(id)},m=$('f-msg'),b=f.querySelector('button');
+    function msg(t,e){m.textContent=t;m.className='fmsg'+(e?' err':'')}
+    try{var sw=localStorage.getItem('sagwic_signup');if(sw){f.classList.add('done');msg(sw+', you\'re on our radar. We\'ll WhatsApp you within 2 days.')}}catch(e){}
+    f.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      f.querySelectorAll('.bad').forEach(function(x){x.classList.remove('bad')});
+      var name=$('f-name').value.trim(),ph=$('f-phone').value.replace(/[^0-9+]/g,''),skill=$('f-skill').value.trim(),built=$('f-built').value.trim(),why=$('f-why').value.trim();
+      if(name.split(/\s+/).length<2){$('f-name').classList.add('bad');$('f-name').focus();return msg('Please enter your full name.',1)}
+      if(!/^(\+?27|0)[6-8][0-9]{8}$/.test(ph)&&!/^\+[1-9][0-9]{7,14}$/.test(ph)){$('f-phone').classList.add('bad');$('f-phone').focus();return msg('Please enter a valid phone number, e.g. 082 123 4567.',1)}
+      if(!skill){$('f-skill').classList.add('bad');$('f-skill').focus();return msg('Tell us what you\'re studying or good at.',1)}
+      if(!built){$('f-built').classList.add('bad');$('f-built').focus();return msg('Tell us about something you\'ve built.',1)}
+      if(!why){$('f-why').classList.add('bad');$('f-why').focus();return msg('Tell us why you want to join.',1)}
+      b.disabled=true;msg('Sending…');
+      var d=new FormData();d.append(E.name,name);d.append(E.phone,ph);d.append(E.skill,skill);d.append(E.built,built);d.append(E.why,why);
+      fetch(FORM_URL,{method:'POST',mode:'no-cors',body:d}).then(function(){
+        var first=name.split(' ')[0];f.classList.add('done');try{localStorage.setItem('sagwic_signup',first)}catch(e){}
+        msg(first+', you\'re on our radar. We\'ll WhatsApp you within 2 days.');
+      }).catch(function(){b.disabled=false;msg('That didn\'t go through. Check your connection and try again.',1)});
+    });
+  }
+
+  /* the eyes */
+  var sets=[].slice.call(document.querySelectorAll('svg.eyes')).map(function(svg){
+    var ps=[].slice.call(svg.querySelectorAll('.pupil'));
+    ps.forEach(function(p){p.style.transformBox='fill-box';p.style.transformOrigin='center';p.style.transition='transform .35s cubic-bezier(.3,.7,.2,1)'});
+    return {svg:svg,ps:ps,lim:svg.classList.contains('big')?8:6.5};
+  });
+  var UP=[3,-7];               /* resting: up and to the right, per the brand guidelines */
+  var cur=UP.slice(),squash=1;
+  function setAll(a,b,sy){
+    sy=sy||1;
+    sets.forEach(function(s){
+      var k=s.lim/8;
+      s.ps[0].style.transform='translate('+(a[0]*k).toFixed(1)+'px,'+(a[1]*k).toFixed(1)+'px) scaleY('+sy+')';
+      s.ps[1].style.transform='translate('+(b[0]*k).toFixed(1)+'px,'+(b[1]*k).toFixed(1)+'px) scaleY('+sy+')';
+    });
+  }
+  function set(a,b,sy){cur=a.slice();setAll(a,b||a,sy)}
+  set(UP);
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+
+  var lastPointer=0;
+  function idle(){return true}
+
   function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
   function rnd(a,b){return a+Math.random()*(b-a)}
+  var busy=false;
   var moves={
-    look:async function(){var t=rnd(0,Math.PI*2),r=rnd(4,8),v=[+(Math.cos(t)*r).toFixed(1),+(Math.sin(t)*r).toFixed(1)];set(v,v);await wait(rnd(900,1800))},
-    up:async function(){set(UP,UP);await wait(rnd(1200,2200))},
-    blink:async function(){var cur=ps[0].style.transform.match(/-?[\d.]+/g)||UP;var v=[+cur[0],+cur[1]];set(v,v,.1);await wait(130);set(v,v,1);await wait(rnd(500,900))},
-    cross:async function(){set([6,1],[-6,1]);await wait(900);set(UP,UP);await wait(600)},
-    scan:async function(){for(var i=0;i<2;i++){set([-7,0],[-7,0]);await wait(420);set([7,0],[7,0]);await wait(420)}set(UP,UP);await wait(500)},
-    roll:async function(){for(var k=0;k<=8;k++){var t=-Math.PI/2+k*Math.PI/4,v=[+(Math.cos(t)*7).toFixed(1),+(Math.sin(t)*7).toFixed(1)];set(v,v);await wait(110)}set(UP,UP);await wait(700)},
-    think:async function(){set([5,-6],[5,-6]);await wait(1500)}
+    look:async function(){var t=rnd(0,Math.PI*2),r=rnd(4,8),v=[Math.cos(t)*r,Math.sin(t)*r];set(v);await wait(rnd(900,1800))},
+    up:async function(){set(UP);await wait(rnd(1200,2200))},
+    blink:async function(){var v=cur.slice();setAll(v,v,.1);await wait(130);setAll(v,v,1);await wait(rnd(500,900))},
+    cross:async function(){set([6,1],[-6,1]);await wait(900);set(UP);await wait(600)},
+    scan:async function(){for(var i=0;i<2;i++){set([-7,0]);await wait(420);set([7,0]);await wait(420)}set(UP);await wait(500)},
+    roll:async function(){for(var k=0;k<=8;k++){var t=-Math.PI/2+k*Math.PI/4;set([Math.cos(t)*7,Math.sin(t)*7]);await wait(110)}set(UP);await wait(700)},
+    think:async function(){set([5,-6]);await wait(1500)}
   };
-  var bag=['look','look','look','up','up','blink','blink','think','scan','cross','roll'];
-  (async function loop(){await wait(800);for(;;){await moves[bag[Math.floor(Math.random()*bag.length)]]();if(Math.random()<.35)await moves.blink()}})();
+  var bag=['scan','scan','look','look','look','up','blink','blink','think','cross','roll'];
+  (async function loop(){
+    await wait(800);
+    for(;;){
+      if(!idle()||busy){await wait(300);continue}
+      await moves[bag[Math.floor(Math.random()*bag.length)]]();
+      if(idle()&&Math.random()<.35)await moves.blink();
+    }
+  })();
+
+  /* tap or click the mascot: it rolls its eyes and blinks */
+  document.getElementById('mascot').addEventListener('click',async function(){
+    if(busy)return;busy=true;lastPointer=0;
+    await moves.roll();await moves.blink();busy=false;
+  });
 })();
 </script>
 </body>
