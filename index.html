@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+/* Always open at the hero, even from shared links like sagwic.com/#apply */
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+window.addEventListener('load',function(){window.scrollTo(0,0)});
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sagwic</title>
 <meta name="description" content="Sagwic (Scouting And Gathering World-class Innovative Creators) is how Tambora finds its people: engineers, builders and curious minds who want to work on autonomous drones that help people.">
